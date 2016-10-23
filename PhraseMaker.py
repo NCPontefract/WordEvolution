@@ -1,5 +1,8 @@
-import random, math, string
+import random, math, string, sys
 from operator import itemgetter
+
+# Used so that sysout is not cleared on the first generation
+firstGen = True
 
 # Size of the population.
 # Not related to the length of the target string.
@@ -94,15 +97,21 @@ def getPair(valpop):
 
 # Load and return the next generation of 'creatures'.
 def nextGen(pop):
+    global firstGen
     valuedPop = [] # TODO: make the previous gen's valuedPop persist so we only have to evaluate half.
     population = pop
     for word in population:
         fitness = evaluate(word, finalPhrase) # Evaluate the fitness of the word.
         valuedPop.append((fitness, word)) # Add the fitness and word to the list.
     valuedPop.sort(key=itemgetter(0), reverse=True) # Sort best to worst.
+    if firstGen == False:
+        for i in range(0,3):
+            sys.stdout.write("\033[F")
+            sys.stdout.write("\033[K")
     print("Best: " + str(valuedPop[0][1]))
     print("Best fitness: " + str(valuedPop[0][0]))
     print("Generation: " + str(genNum + 1))
+    firstGen = False
     del(population)
     population = []
     for i in valuedPop:
