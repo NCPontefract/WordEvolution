@@ -144,6 +144,9 @@ try:
     finalPhrase = str(raw_input("Phrase to search for: ")) # Target phrase from user input.
 except:
     finalPhrase = str(input("Phrase to search for: ")) # Needed for Python 3 compatibility.
+if len(finalPhrase) < 7:
+    print("Unable to run with phrases less than seven characters in length.")
+    exit()
 phraseLen = len(finalPhrase) # Set the length of the target.
 population = populate(popSize) # Make the first generation.
 fin = False
